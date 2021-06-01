@@ -1,18 +1,19 @@
 package com.inhatc.sns_project;
 
-import android.widget.EditText;
-
 public class MemberInfo {
     private String name;
     private String phoneNumber;
     private String birthDay;
     private String address;
+    private String photoUrl;
 
-    public MemberInfo(String name, String phoneNumber, String birthDay, String address){
+    public MemberInfo(String s, String name, String phoneNumber, String birthDay, String address){
         this.name = name;
         this.phoneNumber = phoneNumber;
         this.birthDay = birthDay;
         this.address = address;
+        this.address = photoUrl;
+
     }
 
     public String getName(){
@@ -41,6 +42,13 @@ public class MemberInfo {
     }
     public void setAddress(String address){
         this.address = address;
+    }
+
+    public String getphotoUrl(){
+        return this.photoUrl;
+    }
+    public void setphotoUrl(String photoUrl){
+        this.photoUrl = address;
     }
 
 }
