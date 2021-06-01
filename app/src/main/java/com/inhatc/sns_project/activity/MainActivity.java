@@ -1,4 +1,4 @@
-package com.inhatc.sns_project;
+package com.inhatc.sns_project.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,6 +15,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.inhatc.sns_project.R;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";

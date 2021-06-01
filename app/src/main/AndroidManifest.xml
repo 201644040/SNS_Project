@@ -3,7 +3,7 @@
     package="com.inhatc.sns_project">
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.CAMERA" />
-
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
 
@@ -14,7 +14,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.SNS_Project">
-        <activity android:name=".MainActivity">
+        <activity android:name=".activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -31,15 +31,17 @@
                     android:host="google.com" />
             </intent-filter>
         </activity>
-        <activity android:name=".LoginActivity">
+        <activity android:name=".activity.LoginActivity">
         </activity>
-        <activity android:name=".SignUpActivity">
+        <activity android:name=".activity.SignUpActivity">
         </activity>
-        <activity android:name=".PasswordResetActivity">
+        <activity android:name=".activity.PasswordResetActivity">
         </activity>
-        <activity android:name=".MemberinitActivity">
+        <activity android:name=".activity.MemberinitActivity">
         </activity>
-        <activity android:name=".CameraActivity">
+        <activity android:name=".activity.CameraActivity">
+        </activity>
+        <activity android:name=".activity.GalleryActivity">
         </activity>
     </application>
 

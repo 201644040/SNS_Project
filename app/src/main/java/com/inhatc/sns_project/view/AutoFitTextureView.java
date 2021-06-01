@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.inhatc.sns_project;
+package com.inhatc.sns_project.view;
 
 import android.content.Context;
 import android.util.AttributeSet;

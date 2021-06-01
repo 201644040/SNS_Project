@@ -1,4 +1,4 @@
-package com.inhatc.sns_project;
+package com.inhatc.sns_project.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,6 +14,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.inhatc.sns_project.R;
 
 public class LoginActivity extends AppCompatActivity {
 

@@ -19,4 +19,4 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#000"
-    tools:context="com.inhatc.sns_project.CameraActivity" /> <!--경로 설정 확인-->
+    tools:context="com.inhatc.sns_project.activity.CameraActivity" /> <!--경로 설정 확인-->

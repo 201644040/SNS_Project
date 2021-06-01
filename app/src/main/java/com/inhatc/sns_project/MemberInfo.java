@@ -7,13 +7,19 @@ public class MemberInfo {
     private String address;
     private String photoUrl;
 
-    public MemberInfo(String s, String name, String phoneNumber, String birthDay, String address){
+    public MemberInfo(String name, String phoneNumber, String birthDay, String address, String photoUrl){
         this.name = name;
         this.phoneNumber = phoneNumber;
         this.birthDay = birthDay;
         this.address = address;
         this.address = photoUrl;
+    }
 
+    public MemberInfo(String name, String phoneNumber, String birthDay, String address){
+        this.name = name;
+        this.phoneNumber = phoneNumber;
+        this.birthDay = birthDay;
+        this.address = address;
     }
 
     public String getName(){
