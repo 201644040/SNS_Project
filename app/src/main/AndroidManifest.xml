@@ -37,7 +37,7 @@
         </activity>
         <activity android:name=".activity.PasswordResetActivity">
         </activity>
-        <activity android:name=".activity.MemberinitActivity">
+        <activity android:name=".activity.MemberInitActivity">
         </activity>
         <activity android:name=".activity.CameraActivity">
         </activity>

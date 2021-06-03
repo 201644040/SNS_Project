@@ -33,14 +33,13 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.inhatc.sns_project.MemberInfo;
 import com.inhatc.sns_project.R;
-import com.inhatc.sns_project.activity.CameraActivity;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 
-public class MemberinitActivity extends AppCompatActivity {
+public class MemberInitActivity extends AppCompatActivity {
     private static final String TAG = "MemberInitActivity";
     private ImageView profileImageView;
     private String profilePath;
@@ -98,18 +97,16 @@ public class MemberinitActivity extends AppCompatActivity {
                     myStartActivity(CameraActivity.class);
                     break;
                 case R.id.gallery:
-                    if(ContextCompat.checkSelfPermission(MemberinitActivity.this,
+                    if(ContextCompat.checkSelfPermission(MemberInitActivity.this,
                             Manifest.permission.READ_EXTERNAL_STORAGE)
                             != PackageManager.PERMISSION_GRANTED){
-                        if(ActivityCompat.shouldShowRequestPermissionRationale(MemberinitActivity.this,
+                        ActivityCompat.requestPermissions(MemberInitActivity.this,
+                                new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                                1);
+                        if(ActivityCompat.shouldShowRequestPermissionRationale(MemberInitActivity.this,
                                 Manifest.permission.READ_EXTERNAL_STORAGE)){
-                            ActivityCompat.requestPermissions(MemberinitActivity.this,
-                                    new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
-                                    1);
                         } else{
-                            ActivityCompat.requestPermissions(MemberinitActivity.this,
-                                    new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
-                                    1);
+
                             startToast("권한을 허용해 주세요.");
                         }
                     } else{

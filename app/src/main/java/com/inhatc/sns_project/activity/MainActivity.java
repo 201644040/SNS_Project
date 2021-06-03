@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
         if(user == null){
             myStartActivity(SignUpActivity.class);
         }else{
-            myStartActivity(MemberinitActivity.class);
+            myStartActivity(MemberInitActivity.class);
 
             //회원가입 or 로그인
             FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
                                 Log.d(TAG, "DocumentSnapshot data: " + document.getData());
                             } else {
                                 Log.d(TAG, "No such document");
-                                myStartActivity(MemberinitActivity.class);
+                                myStartActivity(MemberInitActivity.class);
                             }
                         }
                     } else {

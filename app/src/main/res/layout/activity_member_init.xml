@@ -89,6 +89,7 @@
         android:layout_alignParentBottom="true"
         android:elevation="10dp"
         android:visibility="gone"
+        app:cardBackgroundColor="?attr/colorPrimary"
         app:cardCornerRadius="15dp">
 
         <LinearLayout
