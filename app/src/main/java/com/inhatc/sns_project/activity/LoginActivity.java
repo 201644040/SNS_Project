@@ -16,7 +16,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.inhatc.sns_project.R;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends BasicActivity {
 
     private FirebaseAuth mAuth;
 

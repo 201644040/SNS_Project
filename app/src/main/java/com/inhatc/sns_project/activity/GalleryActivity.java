@@ -15,7 +15,7 @@ import com.inhatc.sns_project.adapter.GalleryAdapter;
 
 import java.util.ArrayList;
 
-public class GalleryActivity extends AppCompatActivity {
+public class GalleryActivity extends BasicActivity {
     private RecyclerView recyclerView;
     private RecyclerView.Adapter mAdapter;
 
