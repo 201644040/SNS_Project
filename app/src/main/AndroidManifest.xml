@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.inhatc.sns_project">
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
 
     <application
         android:allowBackup="true"
@@ -9,12 +14,38 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.SNS_Project">
-        <activity android:name=".SignUpActivity">
+        <activity android:name=".activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            <intent-filter>
+                <action android:name="android:intent.action.View" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE"/>
+
+                <data
+                    android:scheme="http"
+                    android:host="google.com" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".activity.LoginActivity">
+        </activity>
+        <activity android:name=".activity.SignUpActivity">
+        </activity>
+        <activity android:name=".activity.PasswordResetActivity">
+        </activity>
+        <activity android:name=".activity.MemberInitActivity">
+        </activity>
+        <activity android:name=".activity.CameraActivity">
+        </activity>
+        <activity android:name=".activity.GalleryActivity">
+        </activity>
+        <activity android:name=".activity.BasicActivity">
+        </activity>
+        <activity android:name=".activity.WritePostActivity">
         </activity>
     </application>
 
