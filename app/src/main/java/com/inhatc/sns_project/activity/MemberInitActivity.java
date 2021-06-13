@@ -50,6 +50,7 @@ public class MemberInitActivity extends BasicActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_member_init);
 
+        loaderLayout = findViewById(R.id.loaderLyaout);
         profileImageView = findViewById(R.id.profileimageView);
         profileImageView.setOnClickListener(onClickListener);
 
@@ -81,13 +82,13 @@ public class MemberInitActivity extends BasicActivity {
         public void onClick(View v) {
             switch (v.getId()){
                 case R.id.checkButton:
-                    profileUpdate();
+                    storageUploader();
                     break;
                 case R.id.profileimageView:
                     CardView cardView = findViewById(R.id.buttonsCardView);
-                    if(cardView.getVisibility() == View.VISIBLE){
+                    if(cardView.getVisibility() == View.VISIBLE) {
                         cardView.setVisibility(View.GONE);
-                    }else{
+                    }else {
                         cardView.setVisibility(View.VISIBLE);
                     }
                     break;
@@ -103,11 +104,11 @@ public class MemberInitActivity extends BasicActivity {
                                 1);
                         if(ActivityCompat.shouldShowRequestPermissionRationale(MemberInitActivity.this,
                                 Manifest.permission.READ_EXTERNAL_STORAGE)){
-                        } else{
+                        } else {
 
                             startToast("권한을 허용해 주세요.");
                         }
-                    } else{
+                    } else {
                         myStartActivity(GalleryActivity.class);
                     }
                     break;
@@ -128,7 +129,7 @@ public class MemberInitActivity extends BasicActivity {
         }
     }
 
-    private void profileUpdate() {
+    private void storageUploader() {
         final String name = ((EditText)findViewById(R.id.nameEditText)).getText().toString();
         final String phoneNumber = ((EditText)findViewById(R.id.phoneNumberEditText)).getText().toString();
         final String birthDay = ((EditText)findViewById(R.id.birthDayEditText)).getText().toString();
@@ -141,9 +142,9 @@ public class MemberInitActivity extends BasicActivity {
             user = FirebaseAuth.getInstance().getCurrentUser();
             final StorageReference mountainImagesRef = storageRef.child("users/" + user.getUid() + "/profileImage.jpg");
 
-            if(profilePath == null){
+            if(profilePath == null) {
                 MemberInfo memberInfo = new MemberInfo(name, phoneNumber, birthDay, address);
-                uploader(memberInfo);
+                storeUploader(memberInfo);
             } else {
                 try {
                     InputStream stream = new FileInputStream(new File(profilePath));
@@ -163,7 +164,7 @@ public class MemberInitActivity extends BasicActivity {
                                 Uri downloadUri = task.getResult();
 
                                 MemberInfo memberInfo = new MemberInfo(name, phoneNumber, birthDay, address, downloadUri.toString());
-                                uploader(memberInfo);
+                                storeUploader(memberInfo);
                             } else {
                                 startToast("회원정보를 보내는데 실패하였습니다.");
                             }
@@ -173,15 +174,11 @@ public class MemberInitActivity extends BasicActivity {
                     Log.e("로그", "에러: " +e.toString());
                 }
             }
-
-
-        } else{
+        } else {
             startToast("회원정보를 입력해주세요.");
         }
     }
 
-    private void uploader(MemberInfo memberInfo) {
-    }
 
     private void storeUploader(MemberInfo memberInfo) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();

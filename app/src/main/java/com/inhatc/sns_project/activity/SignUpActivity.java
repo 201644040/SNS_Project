@@ -15,9 +15,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.inhatc.sns_project.R;
-
 public class SignUpActivity extends BasicActivity {
-
     private FirebaseAuth mAuth;
 
     @Override
@@ -32,7 +30,8 @@ public class SignUpActivity extends BasicActivity {
         findViewById(R.id.gotoLoginButton).setOnClickListener(onClickListener);
     }
 
-    @Override public void onBackPressed() {
+        @Override
+        public void onBackPressed() {
         super.onBackPressed();
         moveTaskToBack(true);
         android.os.Process.killProcess(android.os.Process.myPid());

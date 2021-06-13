@@ -1,7 +1,6 @@
 package com.inhatc.sns_project.activity;
 
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -33,14 +32,12 @@ public class MainActivity extends BasicActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
-        if(user == null){
+        if (user == null) {
             myStartActivity(SignUpActivity.class);
-        }else {
-            //회원가입 or 로그인
+        } else {
             FirebaseFirestore db = FirebaseFirestore.getInstance();
             DocumentReference docRef = db.collection("users").document(user.getUid());
             docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -48,7 +45,7 @@ public class MainActivity extends BasicActivity {
                 public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                     if (task.isSuccessful()) {
                         DocumentSnapshot document = task.getResult();
-                        if(document != null) {
+                        if (document != null) {
                             if (document.exists()) {
                                 Log.d(TAG, "DocumentSnapshot data: " + document.getData());
                             } else {
@@ -61,6 +58,7 @@ public class MainActivity extends BasicActivity {
                     }
                 }
             });
+
 
             db.collection("posts")
                     .get()
@@ -93,15 +91,16 @@ public class MainActivity extends BasicActivity {
         findViewById(R.id.floatingActionButton).setOnClickListener(onClickListener);
     }
 
-
-    View.OnClickListener onClickListener = new View.OnClickListener(){
+    View.OnClickListener onClickListener = new View.OnClickListener() {
         @Override
-        public void onClick(View v){
+        public void onClick(View v) {
             switch (v.getId()) {
-/*                case R.id.logoutButton:
+                /*
+                case R.id.logoutButton:
                     FirebaseAuth.getInstance().signOut();
                     myStartActivity(SignUpActivity.class);
-                    break;*/
+                    break;
+                */
                 case R.id.floatingActionButton:
                     myStartActivity(WritePostActivity.class);
                     break;
@@ -109,7 +108,7 @@ public class MainActivity extends BasicActivity {
         }
     };
 
-    private void myStartActivity(Class c){
+    private void myStartActivity(Class c) {
         Intent intent = new Intent(this, c);
         startActivity(intent);
     }

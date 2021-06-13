@@ -14,7 +14,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.inhatc.sns_project.R;
 
 public class PasswordResetActivity extends BasicActivity {
-
     private FirebaseAuth mAuth;
 
     @Override
@@ -38,6 +37,7 @@ public class PasswordResetActivity extends BasicActivity {
             }
         }
     };
+
     private void send() {
         String email = ((EditText) findViewById(R.id.emailEditText)).getText().toString();
         if (email.length() > 0) {

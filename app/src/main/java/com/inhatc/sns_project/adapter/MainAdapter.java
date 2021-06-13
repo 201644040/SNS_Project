@@ -1,5 +1,6 @@
 package com.inhatc.sns_project.adapter;
 
+
 import android.app.Activity;
 import android.util.Log;
 import android.view.LayoutInflater;

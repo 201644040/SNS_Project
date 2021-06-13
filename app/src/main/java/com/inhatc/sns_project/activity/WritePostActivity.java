@@ -218,8 +218,8 @@ public class WritePostActivity extends BasicActivity {
                                             successCount++;
                                             if(pathList.size() == successCount){
                                                 //완료
-                                                PostInfo writeInfo = new PostInfo(title, contentsList, user.getUid(), new Date());
-                                                storeUpload(documentReference, writeInfo);
+                                                PostInfo postInfo = new PostInfo(title, contentsList, user.getUid(), new Date());
+                                                storeUpload(documentReference, postInfo);
                                                 for(int a = 0; a < contentsList.size(); a++){
                                                     Log.e("로그: ","콘덴츠: "+contentsList.get(a));
                                                 }
