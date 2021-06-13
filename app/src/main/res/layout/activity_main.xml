@@ -7,11 +7,10 @@
     android:layout_alignParentEnd="false"
     tools:context=".activity.MainActivity">
 
-    <Button
-        android:id="@+id/logoutButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="로그아웃" />
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/floatingActionButton"
@@ -23,4 +22,5 @@
         android:layout_marginBottom="10dp"
         android:clickable="true"
         app:srcCompat="@drawable/ic_baseline_add_24" />
+
 </RelativeLayout>

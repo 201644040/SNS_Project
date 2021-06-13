@@ -4,18 +4,16 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -43,6 +41,7 @@ import java.io.InputStream;
 public class MemberInitActivity extends BasicActivity {
     private static final String TAG = "MemberInitActivity";
     private ImageView profileImageView;
+    private RelativeLayout loaderLayout;
     private String profilePath;
     private FirebaseUser user;
 
@@ -136,6 +135,7 @@ public class MemberInitActivity extends BasicActivity {
         final String address = ((EditText)findViewById(R.id.addressEditText)).getText().toString();
 
         if(name.length() > 0 && phoneNumber.length() > 9 && birthDay.length() > 5 && address.length() > 0){
+            loaderLayout.setVisibility(View.VISIBLE);
             FirebaseStorage storage = FirebaseStorage.getInstance();
             StorageReference storageRef = storage.getReference();
             user = FirebaseAuth.getInstance().getCurrentUser();
@@ -144,10 +144,9 @@ public class MemberInitActivity extends BasicActivity {
             if(profilePath == null){
                 MemberInfo memberInfo = new MemberInfo(name, phoneNumber, birthDay, address);
                 uploader(memberInfo);
-            }else{
-                try{
+            } else {
+                try {
                     InputStream stream = new FileInputStream(new File(profilePath));
-
                     UploadTask uploadTask = mountainImagesRef.putStream(stream);
                     uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
                         @Override
@@ -170,7 +169,6 @@ public class MemberInitActivity extends BasicActivity {
                             }
                         }
                     });
-
                 }catch (FileNotFoundException e){
                     Log.e("로그", "에러: " +e.toString());
                 }
@@ -182,13 +180,17 @@ public class MemberInitActivity extends BasicActivity {
         }
     }
 
-    private void uploader(MemberInfo memberInfo){
+    private void uploader(MemberInfo memberInfo) {
+    }
+
+    private void storeUploader(MemberInfo memberInfo) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("users").document(user.getUid()).set(memberInfo)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
                         startToast("회원정보 등록을 성공하였습니다.");
+                        loaderLayout.setVisibility(View.GONE);
                         finish();
                     }
                 })
@@ -196,18 +198,18 @@ public class MemberInitActivity extends BasicActivity {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         startToast("회원정보 등록에 실패하였습니다.");
+                        loaderLayout.setVisibility(View.GONE);
                         Log.w(TAG, "Error writing document", e);
                     }
                 });
     }
 
-    private void startToast(String msg){
-        Toast.makeText(this,msg, Toast.LENGTH_SHORT).show();
+    private void startToast(String msg) {
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
     }
 
-    private void myStartActivity(Class c){
+    private void myStartActivity(Class c) {
         Intent intent = new Intent(this, c);
         startActivityForResult(intent, 0);
     }
-
 }

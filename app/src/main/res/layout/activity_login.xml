@@ -44,7 +44,7 @@
                 android:inputType="textPassword" />
 
             <Button
-                android:id="@+id/checkButton"
+                android:id="@+id/loginButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="로그인" />
@@ -58,6 +58,12 @@
         </LinearLayout>
 
     </LinearLayout>
+
+    <include
+        layout="@layout/view_loader"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"/>
 
 
 </RelativeLayout>

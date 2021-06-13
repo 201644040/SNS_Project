@@ -12,7 +12,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -20,7 +19,6 @@ import androidx.annotation.NonNull;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.common.io.LineReader;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
@@ -30,7 +28,7 @@ import com.google.firebase.storage.StorageMetadata;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.inhatc.sns_project.R;
-import com.inhatc.sns_project.WriteInfo;
+import com.inhatc.sns_project.PostInfo;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -46,6 +44,7 @@ public class WritePostActivity extends BasicActivity {
     private ArrayList<String> pathList = new ArrayList<>();
     private LinearLayout parent;
     private RelativeLayout buttonsBackgroundLayout;
+    private RelativeLayout loaderLayout;
     private ImageView selectedImageView;
     private EditText selectedEditText;
     private int pathCount, successCount;
@@ -57,6 +56,7 @@ public class WritePostActivity extends BasicActivity {
 
         parent = findViewById(R.id.contentsLayout);
         buttonsBackgroundLayout = findViewById(R.id.buttonsBackgroundLayout);
+        loaderLayout = findViewById(R.id.loaderLyaout);
 
         buttonsBackgroundLayout.setOnClickListener(onClickListener);
         findViewById(R.id.check).setOnClickListener(onClickListener);
@@ -172,10 +172,12 @@ public class WritePostActivity extends BasicActivity {
             }
         }
     };
+
     private void storageUpload() {
         final String title = ((EditText) findViewById(R.id.titleEditText)).getText().toString();
 
         if (title.length() > 0) {
+            loaderLayout.setVisibility(View.VISIBLE);
             final ArrayList<String> contentsList = new ArrayList<>();
             user = FirebaseAuth.getInstance().getCurrentUser();
             FirebaseStorage storage = FirebaseStorage.getInstance();
@@ -216,7 +218,7 @@ public class WritePostActivity extends BasicActivity {
                                             successCount++;
                                             if(pathList.size() == successCount){
                                                 //완료
-                                                WriteInfo writeInfo = new WriteInfo(title, contentsList, user.getUid(), new Date());
+                                                PostInfo writeInfo = new PostInfo(title, contentsList, user.getUid(), new Date());
                                                 storeUpload(documentReference, writeInfo);
                                                 for(int a = 0; a < contentsList.size(); a++){
                                                     Log.e("로그: ","콘덴츠: "+contentsList.get(a));
@@ -233,17 +235,22 @@ public class WritePostActivity extends BasicActivity {
                     }
                 }
             }
+            if(pathList.size() == 0){
+                PostInfo postInfo = new PostInfo(title, contentsList, user.getUid(), new Date());
+                storeUpload(documentReference, postInfo);
+            }
         } else {
             startToast("제목을 입력해주세요.");
         }
     }
 
-    private void storeUpload(DocumentReference documentReference, WriteInfo writeInfo){
-        documentReference.set(writeInfo)
+    private void storeUpload(DocumentReference documentReference, PostInfo postInfo){
+        documentReference.set(postInfo)
             .addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
                 public void onSuccess(Void aVoid) {
                     Log.d(TAG, "DocumentSnapshot successfully written!");
+                    loaderLayout.setVisibility(View.GONE);
                     finish();
                 }
             })
@@ -251,6 +258,7 @@ public class WritePostActivity extends BasicActivity {
                 @Override
                 public void onFailure(@NonNull Exception e) {
                     Log.w(TAG, "Error writing document", e);
+                    loaderLayout.setVisibility(View.GONE);
                 }
             });
 
