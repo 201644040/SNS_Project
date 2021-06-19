@@ -38,6 +38,8 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 
+import static com.inhatc.sns_project.Util.showToast;
+
 public class MemberInitActivity extends BasicActivity {
     private static final String TAG = "MemberInitActivity";
     private ImageView profileImageView;
@@ -139,7 +141,7 @@ public class MemberInitActivity extends BasicActivity {
                                 MemberInfo memberInfo = new MemberInfo(name, phoneNumber, birthDay, address, downloadUri.toString());
                                 storeUploader(memberInfo);
                             } else {
-                                startToast("회원정보를 보내는데 실패하였습니다.");
+                                showToast(MemberInitActivity.this, "회원정보를 보내는데 실패하였습니다.");
                             }
                         }
                     });
@@ -148,7 +150,7 @@ public class MemberInitActivity extends BasicActivity {
                 }
             }
         } else {
-            startToast("회원정보를 입력해주세요.");
+            showToast(MemberInitActivity.this, "회원정보를 입력해주세요.");
         }
     }
 
@@ -159,7 +161,7 @@ public class MemberInitActivity extends BasicActivity {
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        startToast("회원정보 등록을 성공하였습니다.");
+                        showToast(MemberInitActivity.this, "회원정보 등록을 성공하였습니다.");
                         loaderLayout.setVisibility(View.GONE);
                         finish();
                     }
@@ -167,15 +169,11 @@ public class MemberInitActivity extends BasicActivity {
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        startToast("회원정보 등록에 실패하였습니다.");
+                        showToast(MemberInitActivity.this, "회원정보 등록에 실패하였습니다.");
                         loaderLayout.setVisibility(View.GONE);
                         Log.w(TAG, "Error writing document", e);
                     }
                 });
-    }
-
-    private void startToast(String msg) {
-        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
     }
 
     private void myStartActivity(Class c) {

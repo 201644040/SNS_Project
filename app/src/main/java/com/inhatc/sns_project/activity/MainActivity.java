@@ -34,6 +34,10 @@ import com.inhatc.sns_project.listener.OnPostListener;
 import java.util.ArrayList;
 import java.util.Date;
 
+import static com.inhatc.sns_project.Util.isStorageUrl;
+import static com.inhatc.sns_project.Util.showToast;
+import static com.inhatc.sns_project.Util.storageUrlToName;
+
 public class MainActivity extends BasicActivity {
     private static final String TAG = "MainActivity";
     private FirebaseUser firebaseUser;
@@ -41,7 +45,6 @@ public class MainActivity extends BasicActivity {
     private StorageReference storageRef;
     private MainAdapter mainAdapter;
     private ArrayList<PostInfo> postList;
-    private Util util;
     private int successCount;
 
     @Override
@@ -78,7 +81,6 @@ public class MainActivity extends BasicActivity {
             });
         }
 
-        util = new Util(this);
         postList = new ArrayList<>();
         mainAdapter = new MainAdapter(MainActivity.this, postList);
         mainAdapter.setOnPostListener(onPostListener);
@@ -103,12 +105,9 @@ public class MainActivity extends BasicActivity {
             ArrayList<String> contentsList = postList.get(position).getContents();
             for (int i = 0; i < contentsList.size(); i++) {
                 String contents = contentsList.get(i);
-                if (Patterns.WEB_URL.matcher(contents).matches() && contents.contains("https://firebasestorage.googleapis.com/v0/b/sns-project-30f3c.appspot.com/o/post")) {
+                if (isStorageUrl(contents)) {
                     successCount++;
-                    String[] list = contents.split("\\?");
-                    String[] list2 = list[0].split("%2F");
-                    String name = list2[list2.length - 1];
-                    StorageReference desertRef = storageRef.child("posts/" + id + "/" + name);
+                    StorageReference desertRef = storageRef.child("posts/" + id + "/" + storageUrlToName(contents));
                     desertRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
@@ -119,7 +118,7 @@ public class MainActivity extends BasicActivity {
                             .addOnFailureListener(new OnFailureListener() {
                                 @Override
                                 public void onFailure(@NonNull Exception exception) {
-                                    util.showToast("ERROR");
+                                    showToast(MainActivity.this, "ERROR");
                                 }
                             });
                 }
@@ -185,14 +184,14 @@ public class MainActivity extends BasicActivity {
                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void aVoid) {
-                                util.showToast("게시글을 삭제하였습니다.");
+                                showToast(MainActivity.this, "게시글을 삭제하였습니다.");
                                 postUpdate();
                             }
                         })
                         .addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
-                                util.showToast("게시글을 삭제하지 못하였습니다.");
+                                showToast(MainActivity.this, "게시글을 삭제하지 못하였습니다.");
                             }
                         });
             }

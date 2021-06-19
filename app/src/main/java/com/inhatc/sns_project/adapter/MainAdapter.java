@@ -2,6 +2,7 @@ package com.inhatc.sns_project.adapter;
 
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Color;
 import android.util.Log;
 import android.util.Patterns;
@@ -22,11 +23,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.inhatc.sns_project.PostInfo;
 import com.inhatc.sns_project.R;
+import com.inhatc.sns_project.activity.PostActivity;
 import com.inhatc.sns_project.listener.OnPostListener;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Locale;
+
+import static com.inhatc.sns_project.Util.isStorageUrl;
 
 public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MainViewHolder> {
     private ArrayList<PostInfo> mDataset;
@@ -63,7 +67,9 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MainViewHolder
         cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent(activity, PostActivity.class);
+                intent.putExtra("postInfo", mDataset.get(mainViewHolder.getAdapterPosition()));
+                activity.startActivity(intent);
             }
         });
 
@@ -105,7 +111,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MainViewHolder
                     break;
                 }
                 String contents = contentsList.get(i);
-                if (Patterns.WEB_URL.matcher(contents).matches() && contents.contains("https://firebasestorage.googleapis.com/v0/b/sns-project-30f3c.appspot.com/o/post")) {
+                if (isStorageUrl(contents)) {
                     ImageView imageView = new ImageView(activity);
                     imageView.setLayoutParams(layoutParams);
                     imageView.setAdjustViewBounds(true);

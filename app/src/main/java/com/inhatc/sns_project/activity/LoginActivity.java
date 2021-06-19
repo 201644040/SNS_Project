@@ -16,6 +16,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.inhatc.sns_project.R;
 
+import static com.inhatc.sns_project.Util.showToast;
+
 public class LoginActivity extends BasicActivity {
     private FirebaseAuth mAuth;
 
@@ -58,22 +60,18 @@ public class LoginActivity extends BasicActivity {
                             loaderLayout.setVisibility(View.GONE);
                             if (task.isSuccessful()) {
                                 FirebaseUser user = mAuth.getCurrentUser();
-                                startToast("로그인에 성공하였습니다.");
+                                showToast(LoginActivity.this, "로그인에 성공하였습니다.");
                                 myStartActivity(MainActivity.class);
                             } else {
                                 if (task.getException() != null) {
-                                    startToast(task.getException().toString());
+                                    showToast(LoginActivity.this, task.getException().toString());
                                 }
                             }
                         }
                     });
         } else {
-            startToast("이메일 또는 비밀번호를 입력해 주세요.");
+            showToast(LoginActivity.this, "이메일 또는 비밀번호를 입력해 주세요.");
         }
-    }
-
-    private void startToast(String msg) {
-        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
     }
 
     private void myStartActivity(Class c) {
