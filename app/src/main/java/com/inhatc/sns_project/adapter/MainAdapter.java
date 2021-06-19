@@ -2,7 +2,7 @@ package com.inhatc.sns_project.adapter;
 
 
 import android.app.Activity;
-import android.media.Image;
+import android.graphics.Color;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.LayoutInflater;
@@ -14,16 +14,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.firestore.FirebaseFirestore;
 import com.inhatc.sns_project.PostInfo;
 import com.inhatc.sns_project.R;
 import com.inhatc.sns_project.listener.OnPostListener;
@@ -35,7 +31,6 @@ import java.util.Locale;
 public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MainViewHolder> {
     private ArrayList<PostInfo> mDataset;
     private Activity activity;
-    private FirebaseFirestore firebaseFirestore;
     private OnPostListener onPostListener;
 
     static class MainViewHolder extends RecyclerView.ViewHolder {
@@ -47,9 +42,8 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MainViewHolder
     }
 
     public MainAdapter(Activity activity, ArrayList<PostInfo> myDataset) {
-        mDataset = myDataset;
+        this.mDataset = myDataset;
         this.activity = activity;
-        firebaseFirestore = FirebaseFirestore.getInstance();
     }
 
     public void setOnPostListener(OnPostListener onPostListener){
@@ -97,26 +91,33 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MainViewHolder
         ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         ArrayList<String> contentsList = mDataset.get(position).getContents();
 
-        if(contentsLayout.getTag() == null || !contentsLayout.getTag().equals(contentsList)){
+        if(contentsLayout.getTag() == null || !contentsLayout.getTag().equals(contentsList)) {
             Log.e("로그: ", "태그");
             contentsLayout.setTag(contentsList);
             contentsLayout.removeAllViews();
-            if(contentsList.size() > 0){
-                for (int i = 0; i < contentsList.size(); i++) {
-                    String contents = contentsList.get(i);
-                    if (Patterns.WEB_URL.matcher(contents).matches()) {
-                        ImageView imageView = new ImageView(activity);
-                        imageView.setLayoutParams(layoutParams);
-                        imageView.setAdjustViewBounds(true);
-                        imageView.setScaleType(ImageView.ScaleType.FIT_XY);
-                        contentsLayout.addView(imageView);
-                        Glide.with(activity).load(contents).override(1000).thumbnail(0.1f).into(imageView);
-                    } else {
-                        TextView textView = new TextView(activity);
-                        textView.setLayoutParams(layoutParams);
-                        textView.setText(contents);
-                        contentsLayout.addView(textView);
-                    }
+            final int MORE_INDEX = 2;
+            for (int i = 0; i < contentsList.size(); i++) {
+                if (i == MORE_INDEX) {
+                    TextView textView = new TextView(activity);
+                    textView.setLayoutParams(layoutParams);
+                    textView.setText("더보기...");
+                    contentsLayout.addView(textView);
+                    break;
+                }
+                String contents = contentsList.get(i);
+                if (Patterns.WEB_URL.matcher(contents).matches() && contents.contains("https://firebasestorage.googleapis.com/v0/b/sns-project-30f3c.appspot.com/o/post")) {
+                    ImageView imageView = new ImageView(activity);
+                    imageView.setLayoutParams(layoutParams);
+                    imageView.setAdjustViewBounds(true);
+                    imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+                    contentsLayout.addView(imageView);
+                    Glide.with(activity).load(contents).override(1000).thumbnail(0.1f).into(imageView);
+                } else {
+                    TextView textView = new TextView(activity);
+                    textView.setLayoutParams(layoutParams);
+                    textView.setText(contents);
+                    textView.setTextColor(Color.rgb(0, 0, 0));
+                    contentsLayout.addView(textView);
                 }
             }
         }
@@ -132,13 +133,12 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MainViewHolder
             popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                 @Override
                 public boolean onMenuItemClick(MenuItem menuItem) {
-                    String id = mDataset.get(position).getId();
                     switch (menuItem.getItemId()) {
                         case R.id.modify:
-                            onPostListener.onModify(id);
+                            onPostListener.onModify(position);
                             return true;
                         case R.id.delete:
-                            onPostListener.onDelete(id);
+                            onPostListener.onDelete(position);
                             return true;
                         default:
                             return false;
